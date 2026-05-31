@@ -17,7 +17,7 @@ variable "environment" {
 variable "wp_ami_id" {
   description = "Pre-configured WordPress AMI ID"
   type        = string
-  default = "ami-0abcdef1234567890"
+  default = "ami-00e801948462f718a"
 }
 
 variable "db_password" {
@@ -30,13 +30,13 @@ variable "db_password" {
 variable "availability_zones" {
   description = "Static AZs for student account"
   type        = list(string)
-  default     = ["us-east-2a", "us-east-2b", "us-east-2c"]
+  default     = ["us-east-1a", "us-east-1b", "us-east-1c"]
 }
 
 variable "bastion_ami_id" {
   description = "Static AMI ID for Bastion"
   type        = string
-  default = "ami-09040d770ffe2224f"
+  default = "ami-00e801948462f718a"
 }
 
 locals {

@@ -1,7 +1,7 @@
-aws_region  = "us-east-2"
+aws_region  = "us-east-1"
 
-environment = "PRODUCTION"
+environment = "TEST"
 
-wp_ami_id   = "ami-0abcdef1234567890" 
+wp_ami_id   = "ami-00e801948462f718a" 
 
 db_password = "SuperSecurePassword123!"

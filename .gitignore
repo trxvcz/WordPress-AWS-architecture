@@ -6,3 +6,6 @@ aws/
 awscliv2.zip
 git 
 terraform/aws/install
+labsuser.pem
+terraform/*.tfstate
+terraform/*.backup
