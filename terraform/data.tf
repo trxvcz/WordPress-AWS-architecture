@@ -18,8 +18,8 @@ resource "aws_rds_cluster" "aurora" {
 
 # Tworzenie instancji wewnątrz klastra (Primary i Replica)
 resource "aws_rds_cluster_instance" "aurora_instances" {
-  count                = 2
-  identifier           = "vpc-01-aurora-instance-${count.index == 0 ? "primary" : "replica"}"
+  count                = local.cfg.multi_az ? 2 : 1
+  identifier           = "vpc-01-aurora-instance-${var.environment}-${count.index}"
   cluster_identifier   = aws_rds_cluster.aurora.id
   
   # Poprawka: Aurora MySQL 8.0 wymaga absolutnego minimum w postaci db.t3.medium
@@ -27,9 +27,7 @@ resource "aws_rds_cluster_instance" "aurora_instances" {
   
   engine               = aws_rds_cluster.aurora.engine
   engine_version       = aws_rds_cluster.aurora.engine_version
-  
-  # Sztywne przypisanie do stref z dokumentacji
-  availability_zone    = count.index == 0 ? "us-east-1a" : "us-east-1b"
+  availability_zone    = data.aws_availability_zones.available.names[count.index]
 }
 
 # --- ELASTIC FILE SYSTEM (EFS) ---

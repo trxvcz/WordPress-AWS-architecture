@@ -9,3 +9,4 @@ terraform/aws/install
 labsuser.pem
 terraform/*.tfstate
 terraform/*.backup
+terraform/.terraform.tfstate.lock.info

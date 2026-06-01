@@ -36,7 +36,7 @@ resource "aws_lb_listener" "http" {
 resource "aws_launch_template" "wp" {
   name_prefix   = "VPC-01-WP-Template-"
   image_id      = var.wp_ami_id
-  instance_type = "t3.micro" # Ograniczenie Labowe
+  instance_type = local.current_env.vm_type 
   key_name      = "vockey"   # Dodany klucz SSH do diagnostyki
 
   network_interfaces {
@@ -56,9 +56,9 @@ resource "aws_autoscaling_group" "wp_asg" {
   vpc_zone_identifier = [aws_subnet.private_a.id, aws_subnet.private_b.id]
   target_group_arns   = [aws_lb_target_group.wp_tg.arn]
   
-  min_size         = 2
-  max_size         = 4
-  desired_capacity = 2
+  min_size         = local.current_env.asg_min
+  max_size         = local.current_env.asg_max
+  desired_capacity = local.current_env.asg_min
 
   launch_template {
     id      = aws_launch_template.wp.id
@@ -83,7 +83,7 @@ resource "aws_autoscaling_policy" "cpu" {
 # --- BASTIONY (Prywatne) ---
 resource "aws_instance" "bastion_a" {
   ami                    = var.bastion_ami_id
-  instance_type          = "t3.micro"
+  instance_type          = local.current_env.vm_type
   subnet_id              = aws_subnet.private_a.id
   vpc_security_group_ids = [aws_security_group.bastion.id]
   key_name               = "vockey" # Klucz konta studenckiego
